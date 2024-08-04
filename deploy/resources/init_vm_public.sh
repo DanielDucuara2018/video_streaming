@@ -9,4 +9,4 @@ sudo systemctl status docker
 sudo usermod -aG docker $(whoami)
 sudo chmod 666 /var/run/docker.sock
 git clone https://github.com/DanielDucuara2018/video_streaming.git /opt/video_streaming
-docker compose -f /opt/video_streaming/resources/docker-compose.yml up -d
+docker compose -f /opt/video_streaming/deploy/resources/docker-compose.yml up -d
