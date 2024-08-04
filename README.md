@@ -6,4 +6,3 @@
 - radarr
 - sonarr
 - emby
-- 
