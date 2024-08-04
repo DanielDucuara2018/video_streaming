@@ -39,7 +39,8 @@ resource "outscale_vm" "vm_private" {
   block_device_mappings {
     device_name = "/dev/sda1" # /dev/sda1 corresponds to the root device of the VM
     bsu {
-      volume_size = 500 #GiB
+      volume_size           = 500 #GiB
+      delete_on_vm_deletion = true
     }
   }
 
