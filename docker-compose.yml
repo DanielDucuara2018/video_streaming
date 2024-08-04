@@ -1,0 +1,186 @@
+version: "3.7"
+
+services:
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - ./prowlarr/data:/config
+    ports:
+      - 9696:9696
+    restart: unless-stopped
+
+  # jackett:
+  #   image: lscr.io/linuxserver/jackett:latest
+  #   container_name: jackett
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Europe/Paris
+  #     - AUTO_UPDATE=true #optional
+  #     - RUN_OPTS= #optional
+  #   volumes:
+  #     - ./jackett/data:/config
+  #     - ./downloads:/downloads
+  #   ports:
+  #     - 9117:9117
+  #   restart: unless-stopped
+
+  # deluge:
+  #   image: lscr.io/linuxserver/deluge:latest
+  #   container_name: deluge
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Europe/Paris
+  #     - DELUGE_LOGLEVEL=error #optional
+  #   volumes:
+  #     - ./deluge/config:/config #TODO change
+  #     - ./downloads:/downloads #TODO change
+  #   ports:
+  #     - 8112:8112
+  #     - 6881:6881
+  #     - 6881:6881/udp
+  #     - 58846:58846 #optional
+  #   restart: unless-stopped
+
+  # transmission:
+  #   image: lscr.io/linuxserver/transmission:latest
+  #   container_name: transmission
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Europe/Paris
+  #     - TRANSMISSION_WEB_HOME= #optional
+  #     - USER= #optional
+  #     - PASS= #optional
+  #     - WHITELIST= #optional
+  #     - PEERPORT= #optional
+  #     - HOST_WHITELIST= #optional
+  #   volumes:
+  #     - ./transmission/data:/config
+  #     - ./downloads:/downloads
+  #     - ./watch:/watch
+  #   ports:
+  #     - 9091:9091
+  #     - 51413:51413
+  #     - 51413:51413/udp
+  #   restart: unless-stopped
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+      - WEBUI_PORT=8080
+      - TORRENTING_PORT=6881
+    volumes:
+      - ./qbittorrent/appdata:/config
+      - ./data/downloads:/data/downloads #optional
+    ports:
+      - 8080:8080
+      - 6882:6881
+      - 6882:6881/udp
+    restart: unless-stopped    
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - ./radarr/data:/config #TODO change
+      - ./data/movies:/data/movies #TODO change optional
+      - ./data/downloads:/data/downloads #TODO change optional
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - ./sonarr/data:/config #TODO change
+      - ./data/tv:/data/tv #TODO change optional
+      - ./data/downloads:/data/downloads #TODO change optional
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+
+  emby:
+    image: lscr.io/linuxserver/emby:latest
+    container_name: emby
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ./emby/library:/config
+      - ./data/tv:/data/tvshows
+      - ./data/movies:/data/movies
+      # - /opt/vc/lib:/opt/vc/lib #optional
+    ports:
+      - 8096:8096
+      # - 8920:8920 #optional
+    # devices:
+    #   - /dev/dri:/dev/dri #optional
+    #   - /dev/vchiq:/dev/vchiq #optional
+    #   - /dev/video10:/dev/video10 #optional
+    #   - /dev/video11:/dev/video11 #optional
+    #   - /dev/video12:/dev/video12 #optional
+    restart: unless-stopped
+
+  # plex:
+  #   image: lscr.io/linuxserver/plex:latest
+  #   container_name: plex
+  #   # network_mode: host
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Europe/Paris
+  #     - VERSION=docker
+  #     - PLEX_CLAIM= #optional
+  #   volumes:
+  #     - ./plex/config:/config
+  #     - ./tv:/tv
+  #     - ./movies:/movies
+  #   ports:
+  #     - 32400:32400
+  #     - 1900:1900/udp
+  #     - 5353:5353/udp
+  #     - 8324:8324
+  #     - 32410:32410/udp
+  #     - 32412:32412/udp
+  #     - 32413:32413/udp
+  #     - 32414:32414/udp
+  #     - 32469:32469
+  #   restart: unless-stopped
+
+  # kodi:
+  #   image: linuxserver/kodi-headless:latest
+  #   container_name: kodi
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Europe/Paris
+  #   volumes:
+  #     - ./kodi/config:/config/.kodi
+  #     - ./tv:/tv
+  #     - ./movies:/movies
+  #   ports:
+  #     - 8080:8080
+  #     - 9090:9090
+  #     - 9777:9777/udp
+  #   restart: unless-stopped
