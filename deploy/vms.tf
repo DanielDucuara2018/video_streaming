@@ -48,7 +48,7 @@ resource "outscale_vm" "vm_private" {
     value = "terraform-private-vm-internal-network"
   }
 
-  user_data = base64encode(file("./resources/init_vm_private.sh.sh"))
+  user_data = base64encode(file("./resources/init_vm_private.sh"))
 }
 
 
