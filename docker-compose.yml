@@ -82,7 +82,7 @@ services:
       - TORRENTING_PORT=6881
     volumes:
       - ./qbittorrent/appdata:/config
-      - ./data/downloads:/data/downloads #optional
+      - ./data/downloads:/downloads #optional
     ports:
       - 8080:8080
       - 6882:6881
@@ -98,8 +98,8 @@ services:
       - TZ=Europe/Paris
     volumes:
       - ./radarr/data:/config #TODO change
-      - ./data/movies:/data/movies #TODO change optional
-      - ./data/downloads:/data/downloads #TODO change optional
+      - ./data/movies:/movies #TODO change optional
+      - ./data/downloads:/downloads #TODO change optional
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -113,8 +113,8 @@ services:
       - TZ=Europe/Paris
     volumes:
       - ./sonarr/data:/config #TODO change
-      - ./data/tv:/data/tv #TODO change optional
-      - ./data/downloads:/data/downloads #TODO change optional
+      - ./data/tv:/tv #TODO change optional
+      - ./data/downloads:/downloads #TODO change optional
     ports:
       - 8989:8989
     restart: unless-stopped
