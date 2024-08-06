@@ -184,3 +184,12 @@ services:
   #     - 9090:9090
   #     - 9777:9777/udp
   #   restart: unless-stopped
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./resources/nginx.conf:/etc/nginx/conf.d/default.conf
