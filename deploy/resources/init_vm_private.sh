@@ -23,3 +23,5 @@ nameserver 192.168.1.100
 nameserver 192.168.2.1
 search streaming.home
 EOF
+
+sudo chown -R 1000:1000 /opt/video_streaming/data/
