@@ -18,7 +18,7 @@ git clone https://github.com/DanielDucuara2018/video_streaming.git /opt/video_st
 docker compose -f /opt/video_streaming/docker-compose.apparr.yml up -d
 
 sudo unlink /etc/resolv.conf
-sudo cat /etc/resolv.conf <<EOF >sudo
+sudo tee /etc/resolv.conf >/dev/null <<EOF
 nameserver 192.168.1.100
 nameserver 192.168.2.1
 search streaming.home

@@ -25,13 +25,13 @@ docker compose -f /opt/video_streaming/docker-compose.wireguard.yml up -d
 # config and run DNS
 sudo hostnamectl set-hostname ns1.streaming.home
 
-sudo cat /etc/hosts <<EOF >>sudo
+sudo tee -a /etc/hosts >/dev/null <<EOF
 127.0.0.1   ns1.streaming.admin     ns1
 EOF
 
 sudo hostname -f
 
-sudo cat /etc/sysconfig/named <<EOF >>sudo
+sudo tee -a /etc/sysconfig/named >/dev/null <<EOF
 OPTIONS="-4"
 EOF
 
@@ -46,7 +46,7 @@ sudo firewall-cmd --add-service=dns --permanent
 sudo firewall-cmd --reload
 sudo firewall-cmd --list-services
 
-sudo cat /etc/named.conf <<EOF >sudo
+sudo tee /etc/named.conf >/dev/null <<EOF
 acl "trusted" {
   localhost;    # ns1 - or you can use localhost for ns1
   192.168.1.0/24;  # trusted networks
@@ -105,7 +105,7 @@ sudo tee /var/named/db.streaming.home >/dev/null <<EOF
 ; BIND data file for the local loopback interface
 ;
 ; sudo nano /var/named/db.streaming.home
-$TTL    604800
+\$TTL    604800
 @	IN	SOA     ns1.streaming.home. admin.streaming.home. (
                               3         ; Serial
                          604800         ; Refresh
@@ -130,7 +130,7 @@ sudo tee /var/named/db.192.168.1 >/dev/null <<EOF
 ; BIND reverse data file for the local loopback interface
 ;
 ; sudo nano /var/named/db.192.168.1
-$TTL    604800
+\$TTL    604800
 @       IN      SOA     ns1.streaming.home. admin.streaming.home. (
                               3         ; Serial
                          604800         ; Refresh
@@ -151,7 +151,7 @@ sudo tee /var/named/db.192.168.2 >/dev/null <<EOF
 ; BIND reverse data file for the local loopback interface
 ;
 ; sudo nano /var/named/db.192.168.2
-$TTL    604800
+\$TTL    604800
 @       IN      SOA     ns1.streaming.home. admin.streaming.home. (
                               3         ; Serial
                          604800         ; Refresh
@@ -168,15 +168,19 @@ $TTL    604800
 EOF
 
 sudo chown -R named: /var/named/{db.streaming.home,db.192.168.1,db.192.168.2}
+sudo named-checkconf
+sudo named-checkzone streaming.home /var/named/db.streaming.home
+sudo named-checkzone 1.168.192.in-addr.arpa /var/named/db.192.168.1
+sudo named-checkzone 2.168.192.in-addr.arpa /var/named/db.192.168.2
+
+sudo systemctl restart named
+sudo systemctl status named
 
 sudo unlink /etc/resolv.conf
-sudo cat /etc/resolv.conf <<EOF >sudo
+sudo tee /etc/resolv.conf >/dev/null <<EOF
 nameserver 127.0.0.1
 nameserver 192.168.1.1
 search streaming.local
 EOF
 
-sudo systemctl restart named
-sudo systemctl status named
-
-docker compose restart wireguard
+docker restart wireguard
