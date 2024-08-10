@@ -1,0 +1,18 @@
+;
+; BIND reverse data file for the local loopback interface
+;
+; sudo nano /var/named/db.192.168.1
+$TTL    604800
+@       IN      SOA     ns1.streaming.home. admin.streaming.home. (
+                              3         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+
+; name servers - NS records
+      IN      NS      ns1.streaming.home.
+
+; PTR Records
+100   IN      PTR     ns1.streaming.home.    ; 192.168.1.100

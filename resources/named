@@ -1,0 +1,36 @@
+/* 
+sudo nano /etc/named.conf
+sudo named-checkconf /etc/named.conf
+sudo systemctl restart named
+*/
+acl "trusted" {
+  localhost;    # ns1 - or you can use localhost for ns1
+  192.168.1.0/24;  # trusted networks
+  192.168.2.0/24;  # trusted networks
+};
+
+options {
+  listen-on port 53 { localhost; };
+
+  // listen-on-v6 port 53 { ::1; };
+  
+  directory       "/var/named";
+  dump-file       "/var/named/data/cache_dump.db";
+  statistics-file "/var/named/data/named_stats.txt";
+  memstatistics-file "/var/named/data/named_mem_stats.txt";
+  secroots-file   "/var/named/data/named.secroots";
+  recursing-file  "/var/named/data/named.recursing";
+  
+  allow-query     { localhost; trusted; };
+
+  recursion yes;
+  allow-recursion { trusted; };
+  allow-transfer { localhost; };
+
+  forwarders {
+    8.8.8.8;
+    1.1.1.1;
+  };
+};
+
+include "/etc/named/zones.streaming.home";

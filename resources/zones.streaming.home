@@ -1,0 +1,18 @@
+# sudo nano /etc/named/zones.streaming.home
+zone "streaming.home" {
+  type master;
+  file "db.streaming.home"; # zone file path
+  allow-transfer { none; }; # ns2 IP address - secondary DNS
+};
+
+zone "1.168.192.in-addr.arpa" {
+  type master;
+  file "db.192.168.1";  # subnet 192.168.1.0/24
+  allow-transfer { none; };  # ns2 private IP address - secondary DNS
+};
+
+zone "2.168.192.in-addr.arpa" {
+  type master;
+  file "db.192.168.2";  # subnet 192.168.2.0/24
+  allow-transfer { none; };  # ns2 private IP address - secondary DNS
+};

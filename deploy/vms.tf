@@ -11,6 +11,7 @@ resource "outscale_vm" "vm_public" {
   keypair_name       = var.keypair_name
   security_group_ids = [outscale_security_group.security_group_public.id]
   subnet_id          = outscale_subnet.subnet_public.id
+  private_ips        = ["192.168.1.100"]
   depends_on         = [outscale_public_ip.ec2_public_ip]
 
   tags {
@@ -34,7 +35,6 @@ resource "outscale_vm" "vm_private" {
   security_group_ids = [outscale_security_group.security_group_private.id]
   subnet_id          = outscale_subnet.subnet_private.subnet_id
   private_ips        = ["192.168.2.100"]
-  placement_tenancy  = "default"
 
   block_device_mappings {
     device_name = "/dev/sda1" # /dev/sda1 corresponds to the root device of the VM
