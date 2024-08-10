@@ -28,9 +28,15 @@ variable "secret_key_id" {
 }
 
 # Define EC2 instance type
-variable "instance_type" {
+variable "instance_type_1" {
   description = "The instance type of the EC2 instances"
   default     = "t2.large"
+  type        = string
+}
+
+variable "instance_type_2" {
+  description = "The instance type of the EC2 instances"
+  default     = "m3.xlarge"
   type        = string
 }
 

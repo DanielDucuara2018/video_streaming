@@ -7,7 +7,7 @@ resource "outscale_public_ip" "ec2_public_ip" {
 
 resource "outscale_vm" "vm_public" {
   image_id           = var.omi_id
-  vm_type            = var.instance_type
+  vm_type            = var.instance_type_1
   keypair_name       = var.keypair_name
   security_group_ids = [outscale_security_group.security_group_public.id]
   subnet_id          = outscale_subnet.subnet_public.id
@@ -30,7 +30,7 @@ resource "outscale_vm" "vm_public" {
 
 resource "outscale_vm" "vm_private" {
   image_id           = var.omi_id
-  vm_type            = var.instance_type
+  vm_type            = var.instance_type_2
   keypair_name       = var.keypair_name
   security_group_ids = [outscale_security_group.security_group_private.id]
   subnet_id          = outscale_subnet.subnet_private.subnet_id
