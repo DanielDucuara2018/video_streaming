@@ -193,6 +193,7 @@ services:
       - 443:443
     volumes:
       - ./resources/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./resources/certs:/etc/ssl/certs
 
   portainer:
     image: portainer/portainer-ce:latest

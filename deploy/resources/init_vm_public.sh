@@ -4,7 +4,7 @@
 #requierements
 sudo dnf check-update
 sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin git firewalld bind bind-utils
+sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin git firewalld bind bind-utils ca-certificates
 
 # start docker service
 sudo systemctl start docker
@@ -184,3 +184,11 @@ search streaming.local
 EOF
 
 docker restart wireguard
+docker restart wireguard-ui
+
+# add CA cert in vm
+# sudo nano /etc/pki/ca-trust/source/anchors/myCA.crt # Add myCA.pem insde
+# sudo update-ca-trust
+
+# check the details of the root certificate
+# awk -v cmd='openssl x509 -noout -subject' '/BEGIN/{close(cmd)};{print | cmd}' </etc/ssl/certs/ca-bundle.crt | grep streaming

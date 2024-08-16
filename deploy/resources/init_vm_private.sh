@@ -25,3 +25,14 @@ search streaming.home
 EOF
 
 sudo chown -R 1000:1000 /opt/video_streaming/data/
+
+# create Root Certificate
+# sudo chmod 0700 /opt/video_streaming/resources/setup_ca.sh
+# /opt/video_streaming/resources/setup_ca.sh
+
+# create web site Certificate
+# sudo chmod 0700 /opt/video_streaming/resources/setup_cert.sh
+# /opt/video_streaming/resources/setup_cert.sh
+
+# restart nginx service
+# docker restart nginx
